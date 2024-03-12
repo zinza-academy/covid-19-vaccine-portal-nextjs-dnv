@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import FieldLabel from './FieldLabel';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/navigation';
 
 export type LoginFormFields = {
   email: string;
@@ -31,6 +32,7 @@ export default function LoginForm() {
     resolver: yupResolver(schema)
   });
 
+  const router = useRouter();
   const isInValidateVals = Object.keys(errors).length !== 0;
 
   const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
@@ -42,6 +44,7 @@ export default function LoginForm() {
     const { message } = await response.json();
     console.log(message);
     // redirect to user page
+    router.push('/user');
   };
 
   return (
