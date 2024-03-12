@@ -3,18 +3,33 @@ import { Button, FormControl, TextField } from '@mui/material';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import FieldLabel from './FieldLabel';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export type LoginFormFields = {
   email: string;
   password: string;
 };
 
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Email không đúng định dạng.')
+    .required('Email không được để trống.'),
+  password: yup
+    .string()
+    .required('Password không được để trống.')
+    .min(8, 'Password cần dài ít nhất 8 ký tự.')
+});
+
 export default function LoginForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<LoginFormFields>();
+  } = useForm<LoginFormFields>({
+    resolver: yupResolver(schema)
+  });
 
   const isInValidateVals = Object.keys(errors).length !== 0;
 
