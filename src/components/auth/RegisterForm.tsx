@@ -1,11 +1,19 @@
 'use client';
-import { Button, FormControl, TextField } from '@mui/material';
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField
+} from '@mui/material';
 import FieldLabel from './FieldLabel';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 export type RegisterFormFields = {
   citizenID: string;
@@ -20,12 +28,12 @@ export type RegisterFormFields = {
 };
 
 const defaultFormValues: RegisterFormFields = {
-  citizenID: '',
-  email: '',
-  password: '',
-  fullName: '',
-  dateOfBirth: '',
-  gender: '',
+  citizenID: '123456789',
+  email: 'nguyen@gmail.com',
+  password: '123445667',
+  fullName: 'a',
+  dateOfBirth: 'b',
+  gender: 'c',
   city: '',
   district: '',
   ward: ''
@@ -53,11 +61,16 @@ const schema = yup.object().shape({
   ward: yup.string().required('Xã/Phường không được để trống.')
 });
 
+const cities = ['Hà Nội', 'Hưng Yên', 'Lào Cai'];
+const districts = ['Cầu Giấy', 'Nam Từ Liêm'];
+const wards = ['Mai Dịch', 'Dịch Vọng Hậu'];
+
 export default function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
+    control
   } = useForm<RegisterFormFields>({
     defaultValues: defaultFormValues,
     resolver: yupResolver(schema)
@@ -155,42 +168,78 @@ export default function RegisterForm() {
       {/* Tỉnh/Thành phố */}
       <FormControl>
         <FieldLabel htmlFor="city" text="Tỉnh/Thành phố" required />
-        <TextField
-          {...register('city')}
-          id="city"
-          label=""
-          placeholder="Tỉnh/Thành phố"
-          variant="outlined"
-          error={!!errors.city?.message}
-          helperText={errors.city?.message}
+        <Controller
+          control={control}
+          name="city"
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <Select
+              labelId="city"
+              id="city"
+              value={value}
+              label="Tỉnh/Thành phố"
+              onChange={onChange}
+              error={!!errors.city?.message}
+              onBlur={onBlur}>
+              {cities.map((city) => (
+                <MenuItem key={city} value={city}>
+                  {city}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
         />
+        <FormHelperText error>{errors.city?.message}</FormHelperText>
       </FormControl>
       {/* quận/huyện */}
       <FormControl>
         <FieldLabel htmlFor="district" text="Quận/Huyện" required />
-        <TextField
-          {...register('district')}
-          id="district"
-          label=""
-          placeholder="Quận/Huyện"
-          variant="outlined"
-          error={!!errors.district?.message}
-          helperText={errors.district?.message}
+        {/* <InputLabel id="city">Quận/Huyện</InputLabel> */}
+        <Controller
+          control={control}
+          name="district"
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <Select
+              labelId="district"
+              id="district"
+              value={value}
+              label="Quận/Huyện"
+              onChange={onChange}
+              error={!!errors.district?.message}
+              onBlur={onBlur}>
+              {districts.map((district) => (
+                <MenuItem key={district} value={district}>
+                  {district}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
         />
+        <FormHelperText error>{errors.district?.message}</FormHelperText>
       </FormControl>
       {/* xã/phường */}
       <FormControl>
         <FieldLabel htmlFor="ward" text="Xã/Phường" required />
-        <TextField
-          {...register('ward')}
-          id="password"
-          type="password"
-          label=""
-          placeholder="Your password"
-          variant="outlined"
-          error={!!errors.ward?.message}
-          helperText={errors.ward?.message}
+        <Controller
+          control={control}
+          name="ward"
+          render={({ field: { onChange, onBlur, value, ref } }) => (
+            <Select
+              labelId="city"
+              id="city"
+              value={value}
+              label="Xã/Phường"
+              onChange={onChange}
+              error={!!errors.ward?.message}
+              onBlur={onBlur}>
+              {wards.map((ward) => (
+                <MenuItem key={ward} value={ward}>
+                  {ward}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
         />
+        <FormHelperText error>{errors.ward?.message}</FormHelperText>
       </FormControl>
       {/* continue button */}
       <Button
