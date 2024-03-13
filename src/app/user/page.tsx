@@ -34,7 +34,7 @@ export default function UserPage() {
     setIsLoading(true);
 
     // fake loading time
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       callAPI().then((result) => {
         const { userInfo } = result as GetUserInfoResponseType;
         dispatch(setIsLoggedIn(userInfo));
@@ -42,7 +42,10 @@ export default function UserPage() {
 
       setIsLoading(false);
     }, 3000);
-    return () => {};
+    return () => {
+      // Clear the timeout when the component unmounts
+      clearTimeout(timeoutId);
+    };
   }, []);
   return (
     <div>
