@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../lib/hooks';
-import { UserInfoType, setIsLoggedIn } from '../lib/features/user/userSlice';
+import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
+import { UserInfoType, setIsLoggedIn } from '@/app/lib/features/user/userSlice';
 import Loading from '@/components/common/Loading';
 
 const callAPI = async () => {
