@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../lib/hooks';
 import { UserInfoType, setIsLoggedIn } from '../lib/features/user/userSlice';
+import Loading from '@/components/common/Loading';
 
 const callAPI = async () => {
   try {
@@ -46,7 +47,7 @@ export default function UserPage() {
   return (
     <div>
       <h1>UserPage</h1>
-      {isLoading ? <h2>Loading...</h2> : <h3>Email: {userInfo.email}</h3>}
+      {isLoading ? <Loading /> : <h3>Email: {userInfo.email}</h3>}
     </div>
   );
 }
