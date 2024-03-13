@@ -23,6 +23,10 @@ const schema = yup.object().shape({
     .min(8, 'Password cần dài ít nhất 8 ký tự.')
 });
 
+type LoginResponseType = {
+  message: string;
+};
+
 export default function LoginForm() {
   const {
     register,
@@ -33,16 +37,21 @@ export default function LoginForm() {
   });
 
   const router = useRouter();
+
   const isInValidateVals = Object.keys(errors).length !== 0;
 
   const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-    // fetch login api
-    const response = await fetch('/api/login', {
-      method: 'GET'
-    });
-    const { message } = await response.json();
-    // redirect to user page
-    router.push('/user');
+    try {
+      // fetch login api
+      const response = await fetch('/api/login', {
+        method: 'GET'
+      });
+      const { message } = (await response.json()) as LoginResponseType;
+      // redirect to user page
+      router.push('/user');
+    } catch (error) {
+      console.log('🚀 ~ error:', error);
+    }
   };
 
   return (
