@@ -31,18 +31,17 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting, isValid }
   } = useForm<LoginFormFields>({
     defaultValues: {
       email: 'user@gmail.com',
       password: '12345678'
     },
+    mode: 'onChange',
     resolver: yupResolver(schema)
   });
 
   const router = useRouter();
-
-  const isInValidateVals = Object.keys(errors).length !== 0;
 
   const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
     try {
@@ -73,6 +72,7 @@ export default function LoginForm() {
           variant="outlined"
           error={!!errors.email?.message}
           helperText={errors.email?.message}
+          autoFocus
         />
       </FormControl>
       <FormControl>
@@ -97,7 +97,7 @@ export default function LoginForm() {
       </Link>
 
       <Button
-        disabled={isSubmitting || isInValidateVals}
+        disabled={isSubmitting || !isValid}
         type="submit"
         variant="contained"
         className="bg-[#66BB6A] "
