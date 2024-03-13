@@ -106,7 +106,7 @@ export default function RegisterForm() {
           id="password"
           type="password"
           label=""
-          placeholder="Your password"
+          placeholder="********"
           variant="outlined"
           error={!!errors.password?.message}
           helperText={errors.password?.message}
@@ -132,6 +132,7 @@ export default function RegisterForm() {
           {...register('dateOfBirth')}
           id="dateOfBirth"
           label=""
+          type="date"
           placeholder="Ngày sinh"
           variant="outlined"
           error={!!errors.dateOfBirth?.message}
