@@ -10,8 +10,7 @@ type FieldLabelProps = {
 export default function FieldLabel({
   text,
   required,
-  htmlFor,
-  customClassName
+  htmlFor
 }: FieldLabelProps) {
   return (
     <label htmlFor={htmlFor} className={`text-base mb-1`}>

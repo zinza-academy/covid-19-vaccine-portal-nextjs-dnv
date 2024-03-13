@@ -36,13 +36,11 @@ export default function LoginForm() {
   const isInValidateVals = Object.keys(errors).length !== 0;
 
   const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-    console.log(data);
     // fetch login api
     const response = await fetch('/api/login', {
       method: 'GET'
     });
     const { message } = await response.json();
-    console.log(message);
     // redirect to user page
     router.push('/user');
   };
