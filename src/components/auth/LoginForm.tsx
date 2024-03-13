@@ -33,6 +33,10 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<LoginFormFields>({
+    defaultValues: {
+      email: 'user@gmail.com',
+      password: '12345678'
+    },
     resolver: yupResolver(schema)
   });
 
