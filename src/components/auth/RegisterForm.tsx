@@ -1,43 +1,21 @@
 'use client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   FormControl,
   FormHelperText,
-  InputLabel,
   MenuItem,
   Select,
   TextField
 } from '@mui/material';
-import FieldLabel from './FieldLabel';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import FieldLabel from './FieldLabel';
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-export type RegisterFormFields = {
-  citizenID: string;
-  email: string;
-  password: string;
-  fullName: string;
-  dateOfBirth: string;
-  gender: string;
-  city: string;
-  district: string;
-  ward: string;
-};
-
-const defaultFormValues: RegisterFormFields = {
-  citizenID: '123456789',
-  email: 'nguyen@gmail.com',
-  password: '123445667',
-  fullName: 'a',
-  dateOfBirth: 'b',
-  gender: 'c',
-  city: '',
-  district: '',
-  ward: ''
-};
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const schema = yup.object().shape({
   citizenID: yup
@@ -46,7 +24,6 @@ const schema = yup.object().shape({
     .required('Số CMND/CCCD không được để trống.'),
   email: yup
     .string()
-
     .email('Email không đúng định dạng.')
     .required('Email không được để trống.'),
   password: yup
@@ -54,12 +31,15 @@ const schema = yup.object().shape({
     .required('Password không được để trống.')
     .min(8, 'Password cần dài ít nhất 8 ký tự.'),
   fullName: yup.string().required('Họ tên không được để trống.'),
-  dateOfBirth: yup.string().required('Ngày sinh không được để trống.'),
+
+  dateOfBirth: yup.date().required('Ngày sinh không được để trống.'),
   gender: yup.string().required('Giới tính không được để trống.'),
   city: yup.string().required('Thành phố không được để trống.'),
   district: yup.string().required('Quân/Huyệnkhông được để trống.'),
   ward: yup.string().required('Xã/Phường không được để trống.')
 });
+
+type RegisterFormFields = yup.InferType<typeof schema>;
 
 const cities = ['Hà Nội', 'Hưng Yên', 'Lào Cai'];
 const districts = ['Cầu Giấy', 'Nam Từ Liêm'];
@@ -69,10 +49,9 @@ export default function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     control
   } = useForm<RegisterFormFields>({
-    defaultValues: defaultFormValues,
     resolver: yupResolver(schema)
   });
 
@@ -141,16 +120,27 @@ export default function RegisterForm() {
       {/* Ngày sinh */}
       <FormControl>
         <FieldLabel htmlFor="dateOfBirth" text="Ngày sinh" required />
-        <TextField
-          {...register('dateOfBirth')}
-          id="dateOfBirth"
-          label=""
-          type="date"
-          placeholder="Ngày sinh"
-          variant="outlined"
-          error={!!errors.dateOfBirth?.message}
-          helperText={errors.dateOfBirth?.message}
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <Controller
+            name="dateOfBirth"
+            control={control}
+            render={({ field }) => (
+              <>
+                <DatePicker
+                  {...field}
+                  value={field.value || null}
+                  onChange={field.onChange}
+                  label="Ngày/Tháng/Năm"
+                />
+                {errors.dateOfBirth?.message && (
+                  <FormHelperText error>
+                    {errors.dateOfBirth?.message}
+                  </FormHelperText>
+                )}
+              </>
+            )}
+          />
+        </LocalizationProvider>
       </FormControl>
       {/* Giới tính */}
       <FormControl>
@@ -175,7 +165,7 @@ export default function RegisterForm() {
             <Select
               labelId="city"
               id="city"
-              value={value}
+              value={value || ''}
               label="Tỉnh/Thành phố"
               onChange={onChange}
               error={!!errors.city?.message}
@@ -201,7 +191,7 @@ export default function RegisterForm() {
             <Select
               labelId="district"
               id="district"
-              value={value}
+              value={value || ''}
               label="Quận/Huyện"
               onChange={onChange}
               error={!!errors.district?.message}
@@ -226,8 +216,8 @@ export default function RegisterForm() {
             <Select
               labelId="city"
               id="city"
-              value={value}
               label="Xã/Phường"
+              value={value || ''}
               onChange={onChange}
               error={!!errors.ward?.message}
               onBlur={onBlur}>
