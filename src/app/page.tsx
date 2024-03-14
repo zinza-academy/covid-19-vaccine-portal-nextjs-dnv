@@ -1,7 +1,9 @@
+import RootLayout from '@/components/layout/RootLayout';
+
 export default function Home() {
   return (
-    <main>
-      <h1>Home page</h1>
-    </main>
+    <RootLayout>
+      <h1>Content</h1>
+    </RootLayout>
   );
 }
