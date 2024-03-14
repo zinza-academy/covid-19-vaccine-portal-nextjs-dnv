@@ -53,7 +53,18 @@ export default function RegisterForm() {
     formState: { errors },
     control
   } = useForm<RegisterFormFields>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+      citizenID: '',
+      email: '',
+      password: '',
+      fullName: '',
+      dateOfBirth: new Date(),
+      city: '',
+      district: '',
+      gender: '',
+      ward: ''
+    }
   });
 
   const onSubmit: SubmitHandler<RegisterFormFields> = (data) => {};
