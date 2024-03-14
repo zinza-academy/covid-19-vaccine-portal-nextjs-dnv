@@ -22,7 +22,7 @@ export default function Header() {
       <div className="ml-auto flex items-center">
         <Navigation />
         {isLoggedIn ? (
-          <span className="ml-6">{'Hello'}</span>
+          <span className="ml-6">{userInfo.email}</span>
         ) : (
           <Button
             size="large"
