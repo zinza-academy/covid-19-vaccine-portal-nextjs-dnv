@@ -4,6 +4,7 @@ import {
   Button,
   FormControl,
   FormHelperText,
+  InputLabel,
   MenuItem,
   Select,
   TextField
@@ -55,9 +56,7 @@ export default function RegisterForm() {
     resolver: yupResolver(schema)
   });
 
-  const onSubmit: SubmitHandler<RegisterFormFields> = (data) => {
-    console.log(data);
-  };
+  const onSubmit: SubmitHandler<RegisterFormFields> = (data) => {};
 
   return (
     <form
@@ -131,6 +130,7 @@ export default function RegisterForm() {
                   value={field.value || null}
                   onChange={field.onChange}
                   label="Ngày/Tháng/Năm"
+                  format="DD/MM/YYYY"
                 />
                 {errors.dateOfBirth?.message && (
                   <FormHelperText error>
@@ -162,20 +162,23 @@ export default function RegisterForm() {
           control={control}
           name="city"
           render={({ field: { onChange, onBlur, value, ref } }) => (
-            <Select
-              labelId="city"
-              id="city"
-              value={value || ''}
-              label="Tỉnh/Thành phố"
-              onChange={onChange}
-              error={!!errors.city?.message}
-              onBlur={onBlur}>
-              {cities.map((city) => (
-                <MenuItem key={city} value={city}>
-                  {city}
-                </MenuItem>
-              ))}
-            </Select>
+            <FormControl>
+              <InputLabel id="city">Tỉnh/Thành phố</InputLabel>
+              <Select
+                labelId="city"
+                id="city"
+                value={value || ''}
+                label="Tỉnh/Thành phố"
+                onChange={onChange}
+                error={!!errors.city?.message}
+                onBlur={onBlur}>
+                {cities.map((city) => (
+                  <MenuItem key={city} value={city}>
+                    {city}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           )}
         />
         <FormHelperText error>{errors.city?.message}</FormHelperText>
@@ -183,25 +186,28 @@ export default function RegisterForm() {
       {/* quận/huyện */}
       <FormControl>
         <FieldLabel htmlFor="district" text="Quận/Huyện" required />
-        {/* <InputLabel id="city">Quận/Huyện</InputLabel> */}
+
         <Controller
           control={control}
           name="district"
           render={({ field: { onChange, onBlur, value, ref } }) => (
-            <Select
-              labelId="district"
-              id="district"
-              value={value || ''}
-              label="Quận/Huyện"
-              onChange={onChange}
-              error={!!errors.district?.message}
-              onBlur={onBlur}>
-              {districts.map((district) => (
-                <MenuItem key={district} value={district}>
-                  {district}
-                </MenuItem>
-              ))}
-            </Select>
+            <FormControl>
+              <InputLabel id="district">Quận/Huyện</InputLabel>
+              <Select
+                labelId="district"
+                id="district"
+                value={value || ''}
+                label="Quận/Huyện"
+                onChange={onChange}
+                error={!!errors.district?.message}
+                onBlur={onBlur}>
+                {districts.map((district) => (
+                  <MenuItem key={district} value={district}>
+                    {district}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           )}
         />
         <FormHelperText error>{errors.district?.message}</FormHelperText>
@@ -213,20 +219,23 @@ export default function RegisterForm() {
           control={control}
           name="ward"
           render={({ field: { onChange, onBlur, value, ref } }) => (
-            <Select
-              labelId="city"
-              id="city"
-              label="Xã/Phường"
-              value={value || ''}
-              onChange={onChange}
-              error={!!errors.ward?.message}
-              onBlur={onBlur}>
-              {wards.map((ward) => (
-                <MenuItem key={ward} value={ward}>
-                  {ward}
-                </MenuItem>
-              ))}
-            </Select>
+            <FormControl>
+              <InputLabel id="ward">Xã/Phường</InputLabel>
+              <Select
+                labelId="ward"
+                id="ward"
+                label="Xã/Phường"
+                value={value || ''}
+                onChange={onChange}
+                error={!!errors.ward?.message}
+                onBlur={onBlur}>
+                {wards.map((ward) => (
+                  <MenuItem key={ward} value={ward}>
+                    {ward}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           )}
         />
         <FormHelperText error>{errors.ward?.message}</FormHelperText>
