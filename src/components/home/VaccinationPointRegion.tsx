@@ -1,5 +1,6 @@
 import { Paper, Typography, Divider } from '@mui/material';
 import VaccinationPointToolbar from './VaccinationPointToolbar';
+import VaccinationPointTable from './VaccinationPointTable';
 
 export default function VaccinationPointRegion() {
   return (
@@ -9,7 +10,7 @@ export default function VaccinationPointRegion() {
       <Typography variant="h6">Tra cứu điểm tiêm theo địa bàn</Typography>
       <VaccinationPointToolbar />
       <Divider sx={{ pt: 2 }} />
-      <p>Table</p>
+      <VaccinationPointTable />
     </Paper>
   );
 }
