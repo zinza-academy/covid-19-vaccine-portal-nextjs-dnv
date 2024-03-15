@@ -8,6 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { useAppSelector } from '@/app/lib/hooks';
+import { searchVaccinationPoints } from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
+import { useAppDispatch } from '@/app/lib/hooks';
 
 interface Column {
   id:
@@ -57,84 +60,14 @@ const columns: readonly Column[] = [
   }
 ];
 
-type RowType = {
-  id: number;
-  name: string;
-  address: string;
-  ward: string;
-  district: string;
-  province: string;
-  manager: string;
-  tableNumber: string | number;
-};
-
-const tableData: RowType[] = [
-  {
-    id: 1,
-    name: 'Bệnh viện Đa khoa Medlatec',
-    address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    province: 'Thành phố Hà Nội',
-    manager: 'Nguyễn Thị Kim Liên',
-    tableNumber: 1
-  },
-  {
-    id: 2,
-    name: 'Bệnh viện Đa khoa Medlatec',
-    address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    province: 'Thành phố Hà Nội',
-    manager: 'Nguyễn Thị Kim Liên',
-    tableNumber: 1
-  },
-  {
-    id: 3,
-    name: 'Bệnh viện Đa khoa Medlatec',
-    address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    province: 'Thành phố Hà Nội',
-    manager: 'Nguyễn Thị Kim Liên',
-    tableNumber: 1
-  },
-  {
-    id: 4,
-    name: 'Bệnh viện Đa khoa Medlatec',
-    address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    province: 'Thành phố Hà Nội',
-    manager: 'Nguyễn Thị Kim Liên',
-    tableNumber: 1
-  },
-  {
-    id: 5,
-    name: 'Bệnh viện Đa khoa Medlatec',
-    address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    province: 'Thành phố Hà Nội',
-    manager: 'Nguyễn Thị Kim Liên',
-    tableNumber: 1
-  },
-  {
-    id: 6,
-    name: 'Bệnh viện Đa khoa Medlatec',
-    address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    province: 'Thành phố Hà Nội',
-    manager: 'Nguyễn Thị Kim Liên',
-    tableNumber: 1
-  }
-];
-
 export default function VaccinationPointTable() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(2);
-  console.log('🚀  ~ page:', page);
+
+  const dispatch = useAppDispatch();
+  const tableData = useAppSelector((state) => {
+    return state.vaccinationPoint.tableData;
+  });
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -146,6 +79,10 @@ export default function VaccinationPointTable() {
     setRowsPerPage(+event.target.value);
     setPage(1);
   };
+
+  React.useEffect(() => {
+    dispatch(searchVaccinationPoints({ city: '', district: '', ward: '' }));
+  }, []);
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>

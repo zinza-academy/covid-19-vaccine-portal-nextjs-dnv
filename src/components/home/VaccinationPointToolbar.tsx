@@ -1,35 +1,32 @@
 'use client';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  QueryParamsType,
+  searchVaccinationPoints
+} from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
+import { useAppDispatch } from '@/app/lib/hooks';
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, FormHelperText, MenuItem, Select, Stack } from '@mui/material';
+import { Button, MenuItem, Select, Stack } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 
 const cities = ['Hà Nội', 'Hưng Yên', 'Lào Cai'];
-const districts = ['Cầu Giấy', 'Nam Từ Liêm'];
+const districts = ['Cầu Giấy', 'Quận Ba Đình'];
 const wards = ['Mai Dịch', 'Dịch Vọng Hậu'];
-
-type SearchParamsType = {
-  city: string;
-  district: string;
-  ward: string;
-};
 
 export default function VaccinationPointToolbar() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting }
-  } = useForm<SearchParamsType>({
+  } = useForm<QueryParamsType>({
     defaultValues: {
       city: '',
       district: '',
       ward: ''
     }
   });
-
-  const onSubmit: SubmitHandler<SearchParamsType> = (data) => {
-    console.log(data);
+  const dispatch = useAppDispatch();
+  const onSubmit: SubmitHandler<QueryParamsType> = (data) => {
+    dispatch(searchVaccinationPoints(data));
   };
 
   return (
@@ -44,9 +41,7 @@ export default function VaccinationPointToolbar() {
             sx={{ minWidth: '260px' }}
             {...register('city')}
             inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem value="" disabled>
-              Tỉnh/thành phố
-            </MenuItem>
+            <MenuItem value="">Tỉnh/Thành phố</MenuItem>
             {cities.map((item) => (
               <MenuItem key={'p' + item} value={item}>
                 {item}
@@ -63,9 +58,7 @@ export default function VaccinationPointToolbar() {
             sx={{ minWidth: '260px' }}
             {...register('district')}
             inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem value="" disabled>
-              Quận/Huyện
-            </MenuItem>
+            <MenuItem value="">Quận/Huyện</MenuItem>
             {districts.map((item) => (
               <MenuItem key={'d' + item} value={item}>
                 {item}
@@ -83,9 +76,7 @@ export default function VaccinationPointToolbar() {
             sx={{ minWidth: '260px' }}
             {...register('ward')}
             inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem value="" disabled>
-              Xã/Phường
-            </MenuItem>
+            <MenuItem value="">Xã/Phường</MenuItem>
             {wards.map((item) => (
               <MenuItem key={'w' + item} value={item}>
                 {item}

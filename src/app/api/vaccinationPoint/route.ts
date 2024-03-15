@@ -6,8 +6,8 @@ const tableData = [
     name: 'Bệnh viện Đa khoa Medlatec',
     address: '42-44 Nghĩa Dũng',
     ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    city: 'Thành phố Hà Nội',
+    district: 'Cầu Giấy',
+    city: 'Hà Nội',
     manager: 'Nguyễn Thị Kim Liên',
     tableNumber: 1
   },
@@ -15,9 +15,9 @@ const tableData = [
     id: 2,
     name: 'Bệnh viện Đa khoa Medlatec',
     address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    city: 'Thành phố Hà Nội',
+    ward: 'Mai Dịch',
+    district: 'Cầu Giấy',
+    city: 'Hà Nội',
     manager: 'Nguyễn Thị Kim Liên',
     tableNumber: 1
   },
@@ -25,9 +25,9 @@ const tableData = [
     id: 3,
     name: 'Bệnh viện Đa khoa Medlatec',
     address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
-    district: 'Quận Ba Đình',
-    city: 'Thành phố Hà Nội',
+    ward: 'Mai Dịch',
+    district: 'Cầu Giấy',
+    city: 'Hưng Yên',
     manager: 'Nguyễn Thị Kim Liên',
     tableNumber: 1
   },
@@ -35,9 +35,9 @@ const tableData = [
     id: 4,
     name: 'Bệnh viện Đa khoa Medlatec',
     address: '42-44 Nghĩa Dũng',
-    ward: 'Phúc Xá',
+    ward: 'Mai Dịch',
     district: 'Quận Ba Đình',
-    city: 'Thành phố Hà Nội',
+    city: 'Hà Nội',
     manager: 'Nguyễn Thị Kim Liên',
     tableNumber: 1
   },
@@ -47,7 +47,7 @@ const tableData = [
     address: '42-44 Nghĩa Dũng',
     ward: 'Phúc Xá',
     district: 'Quận Ba Đình',
-    city: 'Thành phố Hà Nội',
+    city: 'Hưng Yên',
     manager: 'Nguyễn Thị Kim Liên',
     tableNumber: 1
   },
@@ -57,7 +57,7 @@ const tableData = [
     address: '42-44 Nghĩa Dũng',
     ward: 'Phúc Xá',
     district: 'Quận Ba Đình',
-    city: 'Thành phố Hà Nội',
+    city: 'Hà Nội',
     manager: 'Nguyễn Thị Kim Liên',
     tableNumber: 1
   }
@@ -70,7 +70,6 @@ export function GET(request: NextRequest, response: NextResponse) {
   const ward = searchParams.get('ward');
 
   const page = parseInt(searchParams.get('page')!);
-
   const rowsPerPage = parseInt(searchParams.get('rowsPerPage')!);
 
   // Áp dụng lọc dữ liệu
@@ -87,7 +86,6 @@ export function GET(request: NextRequest, response: NextResponse) {
     filteredData = filteredData.filter((item) => item.ward === ward);
   }
 
-  console.log(filteredData);
   // Áp dụng phân trang
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
