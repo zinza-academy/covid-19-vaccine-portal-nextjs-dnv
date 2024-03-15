@@ -60,6 +60,56 @@ const tableData = [
     city: 'Hà Nội',
     manager: 'Nguyễn Thị Kim Liên',
     tableNumber: 1
+  },
+  {
+    id: 7,
+    name: 'Bệnh viện Đa khoa Medlatec',
+    address: '42-44 Nghĩa Dũng',
+    ward: 'Phúc Xá',
+    district: 'Quận Ba Đình',
+    city: 'Hà Nội',
+    manager: 'Nguyễn Thị Kim Liên',
+    tableNumber: 1
+  },
+  {
+    id: 8,
+    name: 'Bệnh viện Đa khoa Medlatec',
+    address: '42-44 Nghĩa Dũng',
+    ward: 'Phúc Xá',
+    district: 'Quận Ba Đình',
+    city: 'Hà Nội',
+    manager: 'Nguyễn Thị Kim Liên',
+    tableNumber: 1
+  },
+  {
+    id: 9,
+    name: 'Bệnh viện Đa khoa Medlatec',
+    address: '42-44 Nghĩa Dũng',
+    ward: 'Phúc Xá',
+    district: 'Quận Ba Đình',
+    city: 'Hà Nội',
+    manager: 'Nguyễn Thị Kim Liên',
+    tableNumber: 1
+  },
+  {
+    id: 10,
+    name: 'Bệnh viện Đa khoa Medlatec',
+    address: '42-44 Nghĩa Dũng',
+    ward: 'Phúc Xá',
+    district: 'Quận Ba Đình',
+    city: 'Hà Nội',
+    manager: 'Nguyễn Thị Kim Liên',
+    tableNumber: 1
+  },
+  {
+    id: 11,
+    name: 'Bệnh viện Đa khoa Medlatec',
+    address: '42-44 Nghĩa Dũng',
+    ward: 'Phúc Xá',
+    district: 'Quận Ba Đình',
+    city: 'Hà Nội',
+    manager: 'Nguyễn Thị Kim Liên',
+    tableNumber: 1
   }
 ];
 
@@ -69,7 +119,7 @@ export function GET(request: NextRequest, response: NextResponse) {
   const district = searchParams.get('district');
   const ward = searchParams.get('ward');
 
-  const page = parseInt(searchParams.get('page')!);
+  const page = parseInt(searchParams.get('page')!) + 1;
   const rowsPerPage = parseInt(searchParams.get('rowsPerPage')!);
 
   // Áp dụng lọc dữ liệu
@@ -93,7 +143,8 @@ export function GET(request: NextRequest, response: NextResponse) {
 
   return Response.json(
     {
-      data: paginatedData
+      data: paginatedData,
+      total: filteredData.length
     },
     { status: 200 }
   );

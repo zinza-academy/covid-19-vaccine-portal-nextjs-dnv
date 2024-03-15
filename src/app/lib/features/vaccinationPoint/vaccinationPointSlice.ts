@@ -23,6 +23,7 @@ type VaccinationPointState = {
   queryParams: QueryParamsType;
   rowsPerPage: number;
   page: number;
+  total: number;
 };
 
 // Define the initial state using that type
@@ -33,20 +34,23 @@ const initialState: VaccinationPointState = {
     district: '',
     ward: ''
   },
-  page: 1,
-  rowsPerPage: 2
+  page: 0,
+  rowsPerPage: 10,
+  total: 0
 };
 
 export const searchVaccinationPoints = createAsyncThunk(
   // Tên action
   'vaccinationPoint/search',
 
-  // Code async logic, tham số đầu tiên data là dữ liệu truyền vào khi gọi action
-  async (queryObj: QueryParamsType, { rejectWithValue }) => {
+  async (queryObj: QueryParamsType, { rejectWithValue, getState }) => {
     const { city, district, ward } = queryObj;
+    const {
+      vaccinationPoint: { page, rowsPerPage }
+    } = getState() as RootState; // Explicitly cast to RootState
 
     const response = await fetch(
-      `http://localhost:3000/api/vaccinationPoint?city=${city}&district=${district}&ward=${ward}&page=${1}&rowsPerPage=${10}`,
+      `http://localhost:3000/api/vaccinationPoint?city=${city}&district=${district}&ward=${ward}&page=${page}&rowsPerPage=${rowsPerPage}`,
       {
         method: 'GET',
         headers: {
@@ -65,12 +69,20 @@ export const searchVaccinationPoints = createAsyncThunk(
 
 type SearchResponseType = {
   data: TableDataType[];
+  total: number;
 };
 
 export const vaccinationPointSlice = createSlice({
   name: 'vaccinationPoint',
   initialState,
-  reducers: {},
+  reducers: {
+    handleChangePage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
+    handleChangeRowsPerPage: (state, action: PayloadAction<number>) => {
+      state.rowsPerPage = action.payload;
+    }
+  },
   // Code logic xử lý async action
   extraReducers: (builder) => {
     builder.addCase(searchVaccinationPoints.pending, (state) => {
@@ -83,6 +95,7 @@ export const vaccinationPointSlice = createSlice({
       searchVaccinationPoints.fulfilled,
       (state, action: PayloadAction<SearchResponseType>) => {
         state.tableData = action.payload.data;
+        state.total = action.payload.total;
       }
     );
 
@@ -93,7 +106,8 @@ export const vaccinationPointSlice = createSlice({
   }
 });
 
-// export const {} = vaccinationPointSlice.actions;
+export const { handleChangePage, handleChangeRowsPerPage } =
+  vaccinationPointSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

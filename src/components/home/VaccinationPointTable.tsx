@@ -9,7 +9,11 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useAppSelector } from '@/app/lib/hooks';
-import { searchVaccinationPoints } from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
+import {
+  handleChangePage,
+  handleChangeRowsPerPage,
+  searchVaccinationPoints
+} from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
 import { useAppDispatch } from '@/app/lib/hooks';
 
 interface Column {
@@ -61,23 +65,24 @@ const columns: readonly Column[] = [
 ];
 
 export default function VaccinationPointTable() {
-  const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(2);
-
   const dispatch = useAppDispatch();
   const tableData = useAppSelector((state) => {
     return state.vaccinationPoint.tableData;
   });
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
+  const { page, rowsPerPage, total } = useAppSelector((state) => {
+    return state.vaccinationPoint;
+  });
+
+  const onChangePage = (event: unknown, newPage: number) => {
+    dispatch(handleChangePage(newPage));
+    dispatch(searchVaccinationPoints({ city: '', district: '', ward: '' }));
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(1);
+  const onChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(handleChangeRowsPerPage(+event.target.value));
+    dispatch(handleChangePage(0));
+    dispatch(searchVaccinationPoints({ city: '', district: '', ward: '' }));
   };
 
   React.useEffect(() => {
@@ -119,13 +124,13 @@ export default function VaccinationPointTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[2, 3]}
+        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
         component="div"
-        count={tableData.length}
+        count={total}
         rowsPerPage={rowsPerPage}
         page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+        onPageChange={onChangePage}
+        onRowsPerPageChange={onChangeRowsPerPage}
       />
     </Paper>
   );
