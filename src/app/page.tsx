@@ -6,8 +6,8 @@ import RootLayout from '@/components/layout/RootLayout';
 export default function Home() {
   return (
     <RootLayout>
-      <StatisticalData />
-      <DailyStatistics />
+      {/* <StatisticalData /> */}
+      {/* <DailyStatistics /> */}
       <VaccinationPointRegion />
     </RootLayout>
   );
