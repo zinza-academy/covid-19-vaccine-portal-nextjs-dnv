@@ -9,21 +9,18 @@ const cities = ['Hà Nội', 'Hưng Yên', 'Lào Cai'];
 const districts = ['Cầu Giấy', 'Nam Từ Liêm'];
 const wards = ['Mai Dịch', 'Dịch Vọng Hậu'];
 
-const formSchema = yup.object({
-  city: yup.string().required('Thành phố không được để trống.'),
-  district: yup.string().required('Quân/Huyệnkhông được để trống.'),
-  ward: yup.string().required('Xã/Phường không được để trống.')
-});
-
-type Payload = yup.InferType<typeof formSchema>;
+type SearchParamsType = {
+  city: string;
+  district: string;
+  ward: string;
+};
 
 export default function VaccinationPointToolbar() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting }
-  } = useForm<Payload>({
-    resolver: yupResolver(formSchema),
+  } = useForm<SearchParamsType>({
     defaultValues: {
       city: '',
       district: '',
@@ -31,10 +28,8 @@ export default function VaccinationPointToolbar() {
     }
   });
 
-  const onSubmit: SubmitHandler<Payload> = (data) => {
-    setTimeout(() => {
-      console.log(data);
-    }, 2000);
+  const onSubmit: SubmitHandler<SearchParamsType> = (data) => {
+    console.log(data);
   };
 
   return (
@@ -58,7 +53,6 @@ export default function VaccinationPointToolbar() {
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText error>{errors.city?.message}</FormHelperText>
         </div>
         <div className="block input-group mb-4">
           <Select
@@ -78,7 +72,6 @@ export default function VaccinationPointToolbar() {
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText error>{errors.district?.message}</FormHelperText>
         </div>
         <div className="block input-group mb-4">
           <Select
@@ -99,7 +92,6 @@ export default function VaccinationPointToolbar() {
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText error>{errors.ward?.message}</FormHelperText>
         </div>
         <Button
           disabled={!isValid || isSubmitting}
