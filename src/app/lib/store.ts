@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '@/app/lib/features/user/userSlice';
+import vaccinationPointReducer from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      user: userReducer
+      user: userReducer,
+      vaccinationPoint: vaccinationPointReducer
     }
   });
 };
