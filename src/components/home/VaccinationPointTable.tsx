@@ -36,31 +36,31 @@ const columns: readonly Column[] = [
   },
   {
     id: 'name',
-    label: 'Tên'
+    label: 'Tên địa điểm'
   },
   {
     id: 'address',
-    label: 'Dia chi'
+    label: 'Số nhà, tên đường'
   },
   {
     id: 'ward',
-    label: 'phường'
+    label: 'Xã/Phường'
   },
   {
     id: 'district',
-    label: 'quận'
+    label: 'Quận/Huyện'
   },
   {
     id: 'city',
-    label: 'Thành phố'
+    label: 'Tỉnh/Thành phố'
   },
   {
     id: 'manager',
-    label: 'Quản lý'
+    label: 'Người đứng đầu cơ sở tiêm chủng'
   },
   {
     id: 'tableNumber',
-    label: 'Bàn tiêm'
+    label: 'Số bàn tiêm'
   }
 ];
 

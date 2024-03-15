@@ -56,7 +56,7 @@ export const searchVaccinationPoints = createAsyncThunk(
     } = getState() as RootState; // Explicitly cast to RootState
 
     const response = await fetch(
-      `http://localhost:3000/api/vaccinationPoint?city=${city}&district=${district}&ward=${ward}&page=${page}&rowsPerPage=${rowsPerPage}`,
+      `/api/vaccinationPoint?city=${city}&district=${district}&ward=${ward}&page=${page}&rowsPerPage=${rowsPerPage}`,
       {
         method: 'GET',
         headers: {
