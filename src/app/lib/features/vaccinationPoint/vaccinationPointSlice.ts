@@ -12,11 +12,13 @@ type TableDataType = {
   manager: string;
   tableNumber: number;
 };
+
 export type QueryParamsType = {
   city: string;
   district: string;
   ward: string;
 };
+
 // Define a type for the slice state
 type VaccinationPointState = {
   tableData: TableDataType[];
@@ -44,7 +46,11 @@ export const searchVaccinationPoints = createAsyncThunk(
   'vaccinationPoint/search',
 
   async (queryObj: QueryParamsType, { rejectWithValue, getState }) => {
-    const { city, district, ward } = queryObj;
+    const {
+      vaccinationPoint: {
+        queryParams: { city, district, ward }
+      }
+    } = getState() as RootState; // Explicitly cast to RootState
     const {
       vaccinationPoint: { page, rowsPerPage }
     } = getState() as RootState; // Explicitly cast to RootState
@@ -81,6 +87,9 @@ export const vaccinationPointSlice = createSlice({
     },
     handleChangeRowsPerPage: (state, action: PayloadAction<number>) => {
       state.rowsPerPage = action.payload;
+    },
+    updateQueryParams: (state, action: PayloadAction<QueryParamsType>) => {
+      state.queryParams = action.payload;
     }
   },
   // Code logic xử lý async action
@@ -106,10 +115,7 @@ export const vaccinationPointSlice = createSlice({
   }
 });
 
-export const { handleChangePage, handleChangeRowsPerPage } =
+export const { handleChangePage, handleChangeRowsPerPage, updateQueryParams } =
   vaccinationPointSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
-// export const selectCount = (state: RootState) => state.counter.value;
 
 export default vaccinationPointSlice.reducer;

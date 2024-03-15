@@ -1,7 +1,8 @@
 'use client';
 import {
   QueryParamsType,
-  searchVaccinationPoints
+  searchVaccinationPoints,
+  updateQueryParams
 } from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
 import { useAppDispatch } from '@/app/lib/hooks';
 import SearchIcon from '@mui/icons-material/Search';
@@ -16,7 +17,7 @@ export default function VaccinationPointToolbar() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting }
+    formState: { isValid, isSubmitting }
   } = useForm<QueryParamsType>({
     defaultValues: {
       city: '',
@@ -26,6 +27,7 @@ export default function VaccinationPointToolbar() {
   });
   const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<QueryParamsType> = (data) => {
+    dispatch(updateQueryParams(data));
     dispatch(searchVaccinationPoints(data));
   };
 
@@ -85,7 +87,7 @@ export default function VaccinationPointToolbar() {
           </Select>
         </div>
         <Button
-          disabled={!isValid || isSubmitting}
+          disabled={isSubmitting || !isValid}
           type="submit"
           startIcon={<SearchIcon />}
           variant="contained"
