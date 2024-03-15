@@ -90,6 +90,9 @@ export const vaccinationPointSlice = createSlice({
     },
     updateQueryParams: (state, action: PayloadAction<QueryParamsType>) => {
       state.queryParams = action.payload;
+    },
+    updatePage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
     }
   },
   // Code logic xử lý async action
@@ -115,7 +118,11 @@ export const vaccinationPointSlice = createSlice({
   }
 });
 
-export const { handleChangePage, handleChangeRowsPerPage, updateQueryParams } =
-  vaccinationPointSlice.actions;
+export const {
+  handleChangePage,
+  handleChangeRowsPerPage,
+  updateQueryParams,
+  updatePage
+} = vaccinationPointSlice.actions;
 
 export default vaccinationPointSlice.reducer;
