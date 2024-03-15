@@ -8,7 +8,7 @@ type TableDataType = {
   address: string;
   ward: string;
   district: string;
-  province: string;
+  city: string;
   manager: string;
   tableNumber: number;
 };

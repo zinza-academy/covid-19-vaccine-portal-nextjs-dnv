@@ -89,6 +89,13 @@ export default function VaccinationPointTable() {
     dispatch(searchVaccinationPoints({ city: '', district: '', ward: '' }));
   }, []);
 
+  // duyệt qua từng hàng và thêm order number
+  const startOrderNumber = page * rowsPerPage + 1;
+  const numberedTableData = tableData.map((row, index) => ({
+    orderNumber: startOrderNumber + index,
+    ...row
+  }));
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -106,20 +113,18 @@ export default function VaccinationPointTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData.map((row) => {
-              const data = Object.values(row);
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                  {data.map((val, index) => {
-                    return (
-                      <TableCell key={index} align={'center'}>
-                        {val}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+            {numberedTableData.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell align={'center'}>{row.orderNumber}</TableCell>
+                <TableCell align={'center'}>{row.name}</TableCell>
+                <TableCell align={'center'}>{row.address}</TableCell>
+                <TableCell align={'center'}>{row.ward}</TableCell>
+                <TableCell align={'center'}>{row.district}</TableCell>
+                <TableCell align={'center'}>{row.city}</TableCell>
+                <TableCell align={'center'}>{row.manager}</TableCell>
+                <TableCell align={'center'}>{row.tableNumber}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
