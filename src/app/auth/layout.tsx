@@ -13,7 +13,6 @@ export default function AuthLayout({
           alt="auth background"
           className="max-h-screen max-w-full"
           fill
-          objectFit="fill"
         />
       </div>
       {children}

@@ -17,6 +17,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 const schema = yup.object().shape({
   citizenID: yup
@@ -33,7 +34,7 @@ const schema = yup.object().shape({
     .min(8, 'Password cần dài ít nhất 8 ký tự.'),
   fullName: yup.string().required('Họ tên không được để trống.'),
 
-  dateOfBirth: yup.date().required('Ngày sinh không được để trống.'),
+  dateOfBirth: yup.mixed<Dayjs>().required('Ngày sinh không được để trống.'),
   gender: yup.string().required('Giới tính không được để trống.'),
   city: yup.string().required('Thành phố không được để trống.'),
   district: yup.string().required('Quân/Huyệnkhông được để trống.'),
@@ -59,7 +60,7 @@ export default function RegisterForm() {
       email: '',
       password: '',
       fullName: '',
-      dateOfBirth: new Date(),
+      dateOfBirth: dayjs(),
       city: '',
       district: '',
       gender: '',
@@ -138,7 +139,7 @@ export default function RegisterForm() {
               <>
                 <DatePicker
                   {...field}
-                  value={field.value || null}
+                  value={field.value}
                   onChange={field.onChange}
                   label="Ngày/Tháng/Năm"
                   format="DD/MM/YYYY"
