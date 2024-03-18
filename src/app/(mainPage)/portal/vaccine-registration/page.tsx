@@ -18,6 +18,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { UseFormReturn, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import dayjs, { Dayjs } from 'dayjs';
+import { selectVaccineRegistrationFormData } from '@/app/lib/features/vaccineRegistration/vaccineRegistrationSlice';
+import { useAppSelector } from '@/app/lib/hooks';
 
 export type AvailableSteps = 0 | 1 | 2;
 

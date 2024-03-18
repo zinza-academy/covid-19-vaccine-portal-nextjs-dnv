@@ -20,6 +20,11 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { Controller } from 'react-hook-form';
+import { useAppDispatch } from '@/app/lib/hooks';
+import {
+  PersonalInfoType,
+  submitFormData
+} from '@/app/lib/features/vaccineRegistration/vaccineRegistrationSlice';
 
 const appointmentDateRule = dayjs().add(0, 'day');
 
@@ -35,8 +40,13 @@ export default function PersonalInfoStep({
     formState: { isValid, errors }
   } = vaccineRegistrationForm;
 
+  const dispatch = useAppDispatch();
+
   const onSubmit = (data: VaccineRegistrationFormDataType) => {
     try {
+      const formatedDate = data.appointmentDate.toDate();
+      const personalInfo = { ...data, appointmentDate: formatedDate };
+      dispatch(submitFormData(personalInfo));
     } catch (error) {
       console.log(error);
     }
