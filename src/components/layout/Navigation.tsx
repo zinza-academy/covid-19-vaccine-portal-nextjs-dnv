@@ -34,7 +34,7 @@ export default function Navigation() {
             <Link href="/">Trang chủ</Link>
           </ListItemButton>
           <ListItemButton sx={{ textAlign: 'center' }}>
-            <Link href="/">Đăng ký tiêm</Link>
+            <Link href="/portal/vaccine-registration">Đăng ký tiêm</Link>
           </ListItemButton>
           <ListItemButton sx={{ textAlign: 'center' }}>
             <Typography onClick={handleClick}>

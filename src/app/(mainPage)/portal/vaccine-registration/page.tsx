@@ -10,7 +10,8 @@ import {
   StepLabel,
   Stack,
   Button,
-  Link
+  Link,
+  Box
 } from '@mui/material';
 import { Dispatch, SetStateAction, useState } from 'react';
 
@@ -31,7 +32,7 @@ export default function VaccineRegistration() {
   const [activeStep, setActiveStep] = useState<AvailableSteps>(0);
 
   return (
-    <Stack component="form" spacing={2}>
+    <Stack spacing={2}>
       <Typography
         fontSize={'28px'}
         paddingX={'36px'}
@@ -42,11 +43,13 @@ export default function VaccineRegistration() {
 
       <MuiStepper step={activeStep} setStep={setActiveStep} />
 
-      {activeStep === 0 && <PersonalInfoStep />}
-      {activeStep === 1 && <ConfirmStep />}
-      {activeStep === 2 && <ResultStep />}
+      <Box paddingX={5}>
+        {activeStep === 0 && <PersonalInfoStep />}
+        {activeStep === 1 && <ConfirmStep />}
+        {activeStep === 2 && <ResultStep />}
+      </Box>
 
-      <Stack direction="row" justifyContent="center" spacing={2}>
+      {/* <Stack direction="row" justifyContent="center" spacing={2}>
         <Button
           variant="outlined"
           onClick={() => setActiveStep((prev) => (prev - 1) as AvailableSteps)}>
@@ -58,7 +61,7 @@ export default function VaccineRegistration() {
           disabled={false}>
           Tiếp tục
         </Button>
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 }
