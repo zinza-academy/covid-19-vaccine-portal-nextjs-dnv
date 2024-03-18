@@ -18,6 +18,11 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
+import { useAppDispatch } from '@/app/lib/hooks';
+import {
+  UserInfoType,
+  registerSubmit
+} from '@/app/lib/features/user/userSlice';
 
 const schema = yup.object().shape({
   citizenID: yup
@@ -41,7 +46,7 @@ const schema = yup.object().shape({
   ward: yup.string().required('Xã/Phường không được để trống.')
 });
 
-type RegisterFormFields = yup.InferType<typeof schema>;
+export type RegisterFormFields = yup.InferType<typeof schema>;
 
 const cities = ['Hà Nội', 'Hưng Yên', 'Lào Cai'];
 const districts = ['Cầu Giấy', 'Nam Từ Liêm'];
@@ -68,7 +73,14 @@ export default function RegisterForm() {
     }
   });
 
-  const onSubmit: SubmitHandler<RegisterFormFields> = (data) => {};
+  const dispatch = useAppDispatch();
+  const onSubmit: SubmitHandler<RegisterFormFields> = (data) => {
+    const userInfo: UserInfoType = {
+      ...data,
+      dateOfBirth: data.dateOfBirth.toISOString()
+    };
+    dispatch(registerSubmit(userInfo));
+  };
 
   return (
     <form

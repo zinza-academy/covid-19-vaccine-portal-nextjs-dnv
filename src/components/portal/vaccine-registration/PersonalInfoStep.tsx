@@ -45,7 +45,7 @@ export default function PersonalInfoStep({
 
   const onSubmit = (data: VaccineRegistrationFormDataType) => {
     try {
-      const formatedDate = data.appointmentDate.toDate();
+      const formatedDate = data.appointmentDate.toISOString();
       const personalInfo = { ...data, appointmentDate: formatedDate };
       dispatch(submitFormData(personalInfo));
       setStep((prev) => (prev + 1) as AvailableSteps);

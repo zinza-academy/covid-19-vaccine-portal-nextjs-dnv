@@ -3,8 +3,18 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
 export type UserInfoType = {
+  citizenID: string;
   email: string;
+  password: string;
+  fullName: string;
+  dateOfBirth: string;
+  gender: string;
+  city: string;
+  district: string;
+  ward: string;
 };
+
+export type UserInfoTypeWithoutPassword = Omit<UserInfoType, 'password'>;
 
 // Define a type for the slice state
 interface UserState {
@@ -16,7 +26,15 @@ interface UserState {
 const initialState: UserState = {
   isLoggedIn: false,
   userInfo: {
-    email: ''
+    email: '',
+    citizenID: '',
+    city: '',
+    dateOfBirth: '',
+    gender: '',
+    district: '',
+    fullName: '',
+    password: '',
+    ward: ''
   }
 };
 
@@ -24,8 +42,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserInfo: (state, action: PayloadAction<UserState>) => {
-      state.userInfo = action.payload.userInfo;
+    registerSubmit: (state, action: PayloadAction<UserInfoType>) => {
+      state.userInfo = action.payload;
     },
     setIsLoggedIn: (state, action) => {
       state.isLoggedIn = true;
@@ -34,7 +52,7 @@ export const userSlice = createSlice({
   }
 });
 
-export const { setUserInfo, setIsLoggedIn } = userSlice.actions;
+export const { registerSubmit, setIsLoggedIn } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value;

@@ -50,7 +50,7 @@ export interface VaccineRegistrationFormStepProps
   vaccineRegistrationForm: UseFormReturn<VaccineRegistrationFormDataType, any>;
 }
 export default function VaccineRegistration() {
-  const [activeStep, setActiveStep] = useState<AvailableSteps>(2);
+  const [activeStep, setActiveStep] = useState<AvailableSteps>(0);
 
   const vaccineRegistrationForm = useForm<VaccineRegistrationFormDataType>({
     mode: 'onChange',

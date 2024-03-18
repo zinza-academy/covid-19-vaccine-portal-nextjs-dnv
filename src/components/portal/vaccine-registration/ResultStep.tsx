@@ -1,14 +1,30 @@
-import { Stack, Typography, Grid, Button } from '@mui/material';
-import { red, blue } from '@mui/material/colors';
+import { UserInfoTypeWithoutPassword } from '@/app/lib/features/user/userSlice';
+import { useAppSelector } from '@/app/lib/hooks';
+import convertDateFormat from '@/utils/convertDateFormat';
+import { Button, Grid, Stack, Typography } from '@mui/material';
+import { blue, red } from '@mui/material/colors';
 import Link from 'next/link';
 
+const fakeUserInfo: UserInfoTypeWithoutPassword = {
+  citizenID: '123412341',
+  city: 'Hà Nội',
+  dateOfBirth: '2024-03-10T09:54:20.651Z',
+  district: 'Cau Giay',
+  email: 'nguyen@gmail.com',
+  fullName: 'Nguyen Van A',
+  gender: 'nam',
+  ward: 'Tu Do'
+};
 export default function ResultStep() {
+  const { appointmentDate, desireddate, healthInsuranceNumber } =
+    useAppSelector((state) => state.vaccineRegistration);
+
   return (
     <Stack spacing={2}>
       <Typography variant="h5" textAlign="center">
         Đăng ký tiêm chủng COVID-19 thành công. Mã đặt tiêm của bạn là{' '}
         <Typography component="span" variant="h5" color={'red'}>
-          1
+          #1
         </Typography>{' '}
       </Typography>
       <Typography variant="body1" textAlign="center">
@@ -17,7 +33,7 @@ export default function ResultStep() {
         tượng đăng ký tiêm vắc xin COVID-19 theo từng địa bàn. Chúng tôi sẽ liên
         hệ với quý khách theo email{' '}
         <Typography component="span" variant="body1" color={blue[500]}>
-          1
+          {fakeUserInfo.email}
         </Typography>{' '}
         khi có kế hoạch tiêm trong thời gian sớm nhất.
       </Typography>
@@ -32,19 +48,19 @@ export default function ResultStep() {
         <Grid item xs={4}>
           <Typography variant="body1">Họ và tên</Typography>
           <Typography variant="body1" fontWeight={600}>
-            abc
+            {fakeUserInfo.fullName}
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">Ngày sinh</Typography>
           <Typography variant="body1" fontWeight={600}>
-            date
+            {convertDateFormat(fakeUserInfo.dateOfBirth)}
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">Giới tính</Typography>
           <Typography variant="body1" fontWeight={600}>
-            nam
+            {fakeUserInfo.gender}
           </Typography>
         </Grid>
         <Grid item xs={4}>
@@ -52,42 +68,44 @@ export default function ResultStep() {
             Số CMND/CCCD/Mã định danh công dân
           </Typography>
           <Typography variant="body1" fontWeight={600}>
-            nu
+            {fakeUserInfo.citizenID}
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">Số thẻ BHYT</Typography>
-          <Typography variant="body1" fontWeight={600}></Typography>
+          <Typography variant="body1" fontWeight={600}>
+            {healthInsuranceNumber}
+          </Typography>
         </Grid>
         <Grid item xs={4}></Grid>
         <Grid item xs={4}>
           <Typography variant="body1">Tỉnh/Thành phố</Typography>
           <Typography variant="body1" fontWeight={600}>
-            city
+            {fakeUserInfo.city}
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">Quận/Huyện</Typography>
           <Typography variant="body1" fontWeight={600}>
-            district
+            {fakeUserInfo.district}
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">Xã/Phường</Typography>
           <Typography variant="body1" fontWeight={600}>
-            xa
+            {fakeUserInfo.ward}
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">Ngày tiêm đã đăng ký</Typography>
           <Typography variant="body1" fontWeight={600}>
-            N gày tiêm đã đăng ký
+            {convertDateFormat(appointmentDate)}
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="body1">Buổi tiêm đã đăng ký</Typography>
           <Typography variant="body1" fontWeight={600}>
-            buoi tiem
+            {desireddate}
           </Typography>
         </Grid>
       </Grid>
