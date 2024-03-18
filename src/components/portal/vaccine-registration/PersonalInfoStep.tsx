@@ -2,6 +2,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import {
+  AvailableSteps,
   VaccineRegistrationFormDataType,
   VaccineRegistrationFormStepProps
 } from '@/app/(mainPage)/portal/vaccine-registration/page';
@@ -47,6 +48,7 @@ export default function PersonalInfoStep({
       const formatedDate = data.appointmentDate.toDate();
       const personalInfo = { ...data, appointmentDate: formatedDate };
       dispatch(submitFormData(personalInfo));
+      setStep((prev) => (prev + 1) as AvailableSteps);
     } catch (error) {
       console.log(error);
     }

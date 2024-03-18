@@ -50,7 +50,7 @@ export interface VaccineRegistrationFormStepProps
   vaccineRegistrationForm: UseFormReturn<VaccineRegistrationFormDataType, any>;
 }
 export default function VaccineRegistration() {
-  const [activeStep, setActiveStep] = useState<AvailableSteps>(0);
+  const [activeStep, setActiveStep] = useState<AvailableSteps>(1);
 
   const vaccineRegistrationForm = useForm<VaccineRegistrationFormDataType>({
     mode: 'onChange',
@@ -85,7 +85,9 @@ export default function VaccineRegistration() {
             step={activeStep}
           />
         )}
-        {activeStep === 1 && <ConfirmStep />}
+        {activeStep === 1 && (
+          <ConfirmStep setStep={setActiveStep} step={activeStep} />
+        )}
         {activeStep === 2 && <ResultStep />}
       </Box>
     </Stack>
