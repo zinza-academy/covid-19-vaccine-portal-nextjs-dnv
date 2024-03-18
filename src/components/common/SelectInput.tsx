@@ -29,7 +29,7 @@ const SelectInput = <T extends FieldValues>({
   size
 }: SelectInputProps<T>) => {
   return (
-    <Stack spacing={1}>
+    <Stack spacing={1} width={'330px'}>
       {label ? (
         <Typography>
           {label} {required ? <RequiredTag /> : null}
@@ -55,7 +55,7 @@ const SelectInput = <T extends FieldValues>({
             }}
             {...field}>
             {selections.map((selection, index) => (
-              <MenuItem key={index} value={selection.value}>
+              <MenuItem key={index} value={selection.label}>
                 {selection.label}
               </MenuItem>
             ))}
