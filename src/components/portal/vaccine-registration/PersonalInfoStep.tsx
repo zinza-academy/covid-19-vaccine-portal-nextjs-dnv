@@ -1,3 +1,4 @@
+import notes from '@/utils/constant/vaccinationRegisterNotes';
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import Link from 'next/link';
 
@@ -35,9 +36,15 @@ export default function PersonalInfoStep() {
         <div>2</div>
       </Stack>
       {/* Lưu ý */}
-      <Stack spacing={2} sx={{ color: 'red' }}>
+      <Stack spacing={2} sx={{ color: 'red', pb: 4 }}>
         <Typography>{`Lưu ý:`}</Typography>
-        <Stack>notes</Stack>
+        <Stack>
+          {notes.map((note, index) => (
+            <Typography key={index} component="li">
+              {note}
+            </Typography>
+          ))}
+        </Stack>
       </Stack>
       <Stack direction="row" justifyContent="center" spacing={2}>
         <Link href="/">
