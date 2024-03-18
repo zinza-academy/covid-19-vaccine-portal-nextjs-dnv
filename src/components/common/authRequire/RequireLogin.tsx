@@ -6,7 +6,7 @@ export default function RequireLogin({ children }: PropsWithChildren) {
   const accessToken = cookies().get('access_token');
 
   if (!accessToken?.value) {
-    console.log('Vui lòng đăng nhập');
+    // console.log('Vui lòng đăng nhập');
     redirect('/auth/login');
   }
 

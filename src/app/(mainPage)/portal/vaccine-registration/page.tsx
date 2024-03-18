@@ -3,23 +3,12 @@ import ConfirmStep from '@/components/portal/vaccine-registration/ConfirmStep';
 import MuiStepper from '@/components/portal/vaccine-registration/MuiStepper';
 import PersonalInfoStep from '@/components/portal/vaccine-registration/PersonalInfoStep';
 import ResultStep from '@/components/portal/vaccine-registration/ResultStep';
-import * as yup from 'yup';
-import {
-  Stepper,
-  Typography,
-  Step,
-  StepLabel,
-  Stack,
-  Button,
-  Link,
-  Box
-} from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Stack, Typography } from '@mui/material';
+import dayjs, { Dayjs } from 'dayjs';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { UseFormReturn, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import dayjs, { Dayjs } from 'dayjs';
-import { selectVaccineRegistrationFormData } from '@/app/lib/features/vaccineRegistration/vaccineRegistrationSlice';
-import { useAppSelector } from '@/app/lib/hooks';
+import * as yup from 'yup';
 
 export type AvailableSteps = 0 | 1 | 2;
 

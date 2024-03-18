@@ -2,15 +2,14 @@ import {
   AvailableSteps,
   VaccineRegistrationStepProps
 } from '@/app/(mainPage)/portal/vaccine-registration/page';
-import { Image } from '@mui/icons-material';
 import {
-  Stack,
-  Divider,
-  Typography,
-  FormGroup,
-  FormControlLabel,
+  Button,
   Checkbox,
-  Button
+  Divider,
+  FormControlLabel,
+  FormGroup,
+  Stack,
+  Typography
 } from '@mui/material';
 import { useState } from 'react';
 

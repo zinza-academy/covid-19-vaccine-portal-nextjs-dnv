@@ -6,6 +6,8 @@ import {
   VaccineRegistrationFormDataType,
   VaccineRegistrationFormStepProps
 } from '@/app/(mainPage)/portal/vaccine-registration/page';
+import { submitFormData } from '@/app/lib/features/vaccineRegistration/vaccineRegistrationSlice';
+import { useAppDispatch } from '@/app/lib/hooks';
 import FieldLabel from '@/components/auth/FieldLabel';
 import SelectInput from '@/components/common/SelectInput';
 import desireddateOptions from '@/utils/constant/desireddateOptions';
@@ -21,11 +23,6 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { Controller } from 'react-hook-form';
-import { useAppDispatch } from '@/app/lib/hooks';
-import {
-  PersonalInfoType,
-  submitFormData
-} from '@/app/lib/features/vaccineRegistration/vaccineRegistrationSlice';
 
 const appointmentDateRule = dayjs().add(0, 'day');
 
