@@ -4,7 +4,7 @@ import { Stack, Typography, Grid, Button } from '@mui/material';
 import Link from 'next/link';
 import InjectionHistoryTable from './InjectionHistoryTable';
 
-const fakeUserInfo = {
+export const fakeUserInfo = {
   fullName: 'Nguyen Van A',
   dateOfBirth: new Date().toISOString(),
   citizenID: '123456789',
