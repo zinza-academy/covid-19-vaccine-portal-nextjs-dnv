@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '@/app/lib/features/user/userSlice';
 import vaccinationPointReducer from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
+import vaccineRegistrationReducer from '@/app/lib/features/vaccineRegistration/vaccineRegistrationSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       user: userReducer,
-      vaccinationPoint: vaccinationPointReducer
+      vaccinationPoint: vaccinationPointReducer,
+      vaccineRegistration: vaccineRegistrationReducer
     }
   });
 };
