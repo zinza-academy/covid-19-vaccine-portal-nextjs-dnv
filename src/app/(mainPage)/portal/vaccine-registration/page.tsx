@@ -10,8 +10,11 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { UseFormReturn, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-export type AvailableSteps = 0 | 1 | 2;
-
+export enum AvailableSteps {
+  Step0 = 0,
+  Step1 = 1,
+  Step2 = 2
+}
 export type VaccineRegistrationStepProps = {
   step: AvailableSteps;
   setStep: Dispatch<SetStateAction<AvailableSteps>>;
@@ -67,17 +70,17 @@ export default function VaccineRegistration() {
       <MuiStepper step={activeStep} setStep={setActiveStep} />
 
       <Box paddingX={5}>
-        {activeStep === 0 && (
+        {activeStep === AvailableSteps.Step0 && (
           <PersonalInfoStep
             vaccineRegistrationForm={vaccineRegistrationForm}
             setStep={setActiveStep}
             step={activeStep}
           />
         )}
-        {activeStep === 1 && (
+        {activeStep === AvailableSteps.Step1 && (
           <ConfirmStep setStep={setActiveStep} step={activeStep} />
         )}
-        {activeStep === 2 && <ResultStep />}
+        {activeStep === AvailableSteps.Step2 && <ResultStep />}
       </Box>
     </Stack>
   );
