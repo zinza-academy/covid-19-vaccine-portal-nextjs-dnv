@@ -53,12 +53,12 @@ export default function PersonalInfoStep({
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      {/* 1. Thông tin người đăng ký tiêm */}
+      {/* 1. Information of people registering for injection */}
       <Typography variant="body1" fontWeight={600}>
         1. Thông tin người đăng ký tiêm
       </Typography>
 
-      {/* Nhóm ưu tiên,  Số thẻ BHYT */}
+      {/* priority options, health insurance number  */}
       <Stack direction={'row'} spacing={4}>
         <SelectInput
           name="priorityOptions"
@@ -84,7 +84,7 @@ export default function PersonalInfoStep({
       </Stack>
 
       <Stack direction={'row'} spacing={4}>
-        {/* Nghề nghiệp */}
+        {/* jobs */}
         <SelectInput
           name="job"
           control={control}
@@ -92,7 +92,7 @@ export default function PersonalInfoStep({
           placeholder="Nghề nghiệp"
           selections={jobGroups}
         />
-        {/* Đơn vị công tác */}
+        {/* workplace */}
         <Stack spacing={1}>
           <FieldLabel htmlFor="workplace" text="Đơn vị công tác" />
           <TextField
@@ -106,7 +106,7 @@ export default function PersonalInfoStep({
             helperText={errors.workplace?.message}
           />
         </Stack>
-        {/* Địa chỉ hiện tại */}
+        {/* address */}
         <Stack spacing={1}>
           <FieldLabel htmlFor="address" text="Địa chỉ hiện tại" />
           <TextField
@@ -122,7 +122,7 @@ export default function PersonalInfoStep({
         </Stack>
       </Stack>
 
-      {/* 2. Thông tin đăng ký tiêm chủng */}
+      {/* 2. Vaccination registration information */}
       <Typography variant="body1" fontWeight={600}>
         2. Thông tin đăng ký tiêm chủng
       </Typography>
@@ -153,7 +153,7 @@ export default function PersonalInfoStep({
             />
           </LocalizationProvider>
         </Stack>
-        {/* Nghề nghiệp */}
+        {/* desired appointment date */}
         <SelectInput
           name="desireddate"
           control={control}
@@ -164,7 +164,7 @@ export default function PersonalInfoStep({
       </Stack>
 
       <Stack direction={'row'} spacing={4}></Stack>
-      {/* Lưu ý */}
+      {/* Notes */}
       <Stack spacing={2} sx={{ color: 'red', pb: 4 }}>
         <Typography>{`Lưu ý:`}</Typography>
         <Stack>

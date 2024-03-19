@@ -36,7 +36,6 @@ const schema = yup
 
 export type VaccineRegistrationFormDataType = yup.InferType<typeof schema>;
 
-// props của các step
 export interface VaccineRegistrationFormStepProps
   extends VaccineRegistrationStepProps {
   vaccineRegistrationForm: UseFormReturn<VaccineRegistrationFormDataType, any>;
