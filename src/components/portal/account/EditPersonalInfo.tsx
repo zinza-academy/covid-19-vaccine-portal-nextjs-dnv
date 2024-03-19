@@ -1,4 +1,6 @@
 'use client';
+import FieldLabel from '@/components/auth/FieldLabel';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   FormControl,
@@ -11,14 +13,11 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import * as yup from 'yup';
-import dayjs, { Dayjs } from 'dayjs';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppSelector } from '@/app/lib/hooks';
-import FieldLabel from '@/components/auth/FieldLabel';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 const cities = ['Hà Nội', 'Hưng Yên', 'Lào Cai'];
 const districts = ['Cầu Giấy', 'Nam Từ Liêm'];
@@ -63,7 +62,6 @@ export default function EditPersonalInfo() {
     }
   });
   const onSubmit: SubmitHandler<PersonalInfoFormData> = (data) => {
-    console.log('🚀 ~ EditPersonalInfo ~ data:', data);
     // handle udpate user info
   };
   //   birthday must before today
