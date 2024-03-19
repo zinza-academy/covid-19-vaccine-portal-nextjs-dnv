@@ -27,9 +27,8 @@ export const vaccineRegistrationSlice = createSlice({
   name: 'vaccineRegistration',
   initialState,
   reducers: {
-    submitFormData: (state, action) => {
-      const data = action.payload as PersonalInfoType;
-      return { ...state, ...data };
+    submitFormData: (state, action: PayloadAction<PersonalInfoType>) => {
+      state = action.payload;
     }
   }
 });
