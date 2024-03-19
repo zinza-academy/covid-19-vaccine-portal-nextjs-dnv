@@ -6,7 +6,9 @@ export default function AccountPagesLayout({ children }: PropsWithChildren) {
   return (
     <Stack spacing={4} paddingX={2}>
       <PortalNavigation />
-      <Box paddingX={2}>{children}</Box>
+      <Box paddingX={2} pb={'40%'}>
+        {children}
+      </Box>
     </Stack>
   );
 }
