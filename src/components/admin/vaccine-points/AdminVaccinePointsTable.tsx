@@ -108,7 +108,10 @@ export default function AdminVaccinePointsTable() {
           </TableHead>
           <TableBody>
             {numberedTableData.map((row) => (
-              <TableRow key={row.id} onClick={() => handleOpenEditModal(row)}>
+              <TableRow
+                sx={{ '&:hover': { backgroundColor: '#eee' } }}
+                key={row.id}
+                onClick={() => handleOpenEditModal(row)}>
                 <TableCell align={'center'}>{row.orderNumber}</TableCell>
                 <TableCell align={'center'}>{row.name}</TableCell>
                 <TableCell align={'center'}>{row.address}</TableCell>
