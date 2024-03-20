@@ -1,8 +1,12 @@
 'use client';
 import {
   QueryParamsType,
-  defaultSearachParams
+  defaultSearachParams,
+  handleChangePage,
+  searchVaccinationPoints,
+  updateQueryParams
 } from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
+import { useAppDispatch } from '@/app/lib/hooks';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, MenuItem, Select, Stack } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -16,7 +20,7 @@ export default function SearchSection() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, isDirty, isValid }
+    formState: { isSubmitting }
   } = useForm<AdminSearchParamsType>({
     defaultValues: {
       address: '',
@@ -24,11 +28,11 @@ export default function SearchSection() {
     }
   });
 
+  const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<AdminSearchParamsType> = (data) => {
-    // update page to 0
-
-    // search
-    console.log({ ...defaultSearachParams, ...data });
+    dispatch(updateQueryParams({ ...defaultSearachParams, ...data }));
+    dispatch(handleChangePage(0));
+    dispatch(searchVaccinationPoints(defaultSearachParams));
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,7 +72,7 @@ export default function SearchSection() {
         </div>
 
         <Button
-          disabled={isSubmitting || !isDirty}
+          disabled={isSubmitting}
           type="submit"
           startIcon={<SearchIcon />}
           variant="contained"

@@ -1,8 +1,8 @@
 'use client';
 import {
   QueryParamsType,
+  handleChangePage,
   searchVaccinationPoints,
-  updatePage,
   updateQueryParams
 } from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
 import { useAppDispatch } from '@/app/lib/hooks';
@@ -29,7 +29,7 @@ export default function VaccinationPointToolbar() {
   const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<QueryParamsType> = (data) => {
     dispatch(updateQueryParams(data));
-    dispatch(updatePage(0));
+    dispatch(handleChangePage(0));
     dispatch(searchVaccinationPoints(data));
   };
 

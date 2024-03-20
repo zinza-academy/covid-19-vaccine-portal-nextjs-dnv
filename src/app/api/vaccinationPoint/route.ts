@@ -63,7 +63,7 @@ const tableData = [
   },
   {
     id: 7,
-    name: 'Bệnh viện Đa khoa Medlatec',
+    name: 'Bệnh viện Đa khoa Hà Nội',
     address: '42-44 Nghĩa Dũng',
     ward: 'Phúc Xá',
     district: 'Quận Ba Đình',
@@ -73,7 +73,7 @@ const tableData = [
   },
   {
     id: 8,
-    name: 'Bệnh viện Đa khoa Medlatec',
+    name: 'Bệnh viện Đa khoa Hà Nội',
     address: '42-44 Nghĩa Dũng',
     ward: 'Phúc Xá',
     district: 'Quận Ba Đình',
@@ -93,7 +93,7 @@ const tableData = [
   },
   {
     id: 10,
-    name: 'Bệnh viện Đa khoa Medlatec',
+    name: 'Bệnh viện Đa khoa Hà Nội',
     address: '42-44 Nghĩa Dũng',
     ward: 'Phúc Xá',
     district: 'Quận Ba Đình',
