@@ -119,10 +119,13 @@ export function GET(request: NextRequest, response: NextResponse) {
   const district = searchParams.get('district');
   const ward = searchParams.get('ward');
 
+  const name = searchParams.get('name');
+  const address = searchParams.get('address');
+
   const page = parseInt(searchParams.get('page')!) + 1;
   const rowsPerPage = parseInt(searchParams.get('rowsPerPage')!);
 
-  // Áp dụng lọc dữ liệu
+  // Apply filter data
   let filteredData = tableData;
   if (city) {
     filteredData = filteredData.filter((item) => {
@@ -135,8 +138,14 @@ export function GET(request: NextRequest, response: NextResponse) {
   if (ward) {
     filteredData = filteredData.filter((item) => item.ward === ward);
   }
+  if (name) {
+    filteredData = filteredData.filter((item) => item.name === name);
+  }
+  if (address) {
+    filteredData = filteredData.filter((item) => item.address === address);
+  }
 
-  // Áp dụng phân trang
+  // Apply pagination
   const startIndex = (page - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const paginatedData = filteredData.slice(startIndex, endIndex);
