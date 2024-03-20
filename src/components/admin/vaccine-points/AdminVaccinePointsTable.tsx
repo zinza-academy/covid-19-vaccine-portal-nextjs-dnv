@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,12 +10,14 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useAppSelector } from '@/app/lib/hooks';
 import {
+  TableDataType,
   defaultSearachParams,
   handleChangePage,
   handleChangeRowsPerPage,
   searchVaccinationPoints
 } from '@/app/lib/features/vaccinationPoint/vaccinationPointSlice';
 import { useAppDispatch } from '@/app/lib/hooks';
+import EditModal from './EditModal';
 
 const columns = [
   {
@@ -41,6 +43,11 @@ const columns = [
 ];
 
 export default function AdminVaccinePointsTable() {
+  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+  const [selectedPoint, setSelectedPoint] = useState<TableDataType | null>(
+    null
+  );
+
   const dispatch = useAppDispatch();
   const { tableData } = useAppSelector((state) => {
     return state.vaccinationPoint;
@@ -61,9 +68,20 @@ export default function AdminVaccinePointsTable() {
     dispatch(searchVaccinationPoints(defaultSearachParams));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(searchVaccinationPoints(defaultSearachParams));
   }, []);
+
+  // edit modal handler
+  const handleOpenEditModal = (vaccinationPoint: TableDataType) => {
+    setSelectedPoint(vaccinationPoint);
+    setEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setSelectedPoint(null);
+    setEditModalOpen(false);
+  };
 
   // add order number to each row
   const startOrderNumber = page * rowsPerPage + 1;
@@ -90,7 +108,7 @@ export default function AdminVaccinePointsTable() {
           </TableHead>
           <TableBody>
             {numberedTableData.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow key={row.id} onClick={() => handleOpenEditModal(row)}>
                 <TableCell align={'center'}>{row.orderNumber}</TableCell>
                 <TableCell align={'center'}>{row.name}</TableCell>
                 <TableCell align={'center'}>{row.address}</TableCell>
@@ -109,6 +127,11 @@ export default function AdminVaccinePointsTable() {
         page={page}
         onPageChange={onChangePage}
         onRowsPerPageChange={onChangeRowsPerPage}
+      />
+      <EditModal
+        editModalOpen={editModalOpen}
+        handleCloseEditModal={handleCloseEditModal}
+        vaccinationPoint={selectedPoint}
       />
     </Paper>
   );

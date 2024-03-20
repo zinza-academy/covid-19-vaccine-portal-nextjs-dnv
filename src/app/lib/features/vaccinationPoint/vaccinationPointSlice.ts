@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
-type TableDataType = {
+export type TableDataType = {
   id: number;
   name: string;
   address: string;
