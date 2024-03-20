@@ -17,6 +17,8 @@ export type QueryParamsType = {
   city: string;
   district: string;
   ward: string;
+  name: string;
+  address: string;
 };
 
 // Define a type for the slice state
@@ -34,11 +36,21 @@ const initialState: VaccinationPointState = {
   queryParams: {
     city: '',
     district: '',
-    ward: ''
+    ward: '',
+    name: '',
+    address: ''
   },
   page: 0,
   rowsPerPage: 10,
   total: 0
+};
+
+export const defaultSearachParams: QueryParamsType = {
+  city: '',
+  district: '',
+  ward: '',
+  name: '',
+  address: ''
 };
 
 export const searchVaccinationPoints = createAsyncThunk(
@@ -48,7 +60,7 @@ export const searchVaccinationPoints = createAsyncThunk(
   async (queryObj: QueryParamsType, { rejectWithValue, getState }) => {
     const {
       vaccinationPoint: {
-        queryParams: { city, district, ward }
+        queryParams: { city, district, ward, address, name }
       }
     } = getState() as RootState; // Explicitly cast to RootState
     const {
@@ -56,7 +68,7 @@ export const searchVaccinationPoints = createAsyncThunk(
     } = getState() as RootState; // Explicitly cast to RootState
 
     const response = await fetch(
-      `/api/vaccinationPoint?city=${city}&district=${district}&ward=${ward}&page=${page}&rowsPerPage=${rowsPerPage}`,
+      `/api/vaccinationPoint?city=${city}&district=${district}&ward=${ward}&name=${name}&address=${address}&page=${page}&rowsPerPage=${rowsPerPage}`,
       {
         method: 'GET',
         headers: {

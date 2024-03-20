@@ -10,6 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useAppSelector } from '@/app/lib/hooks';
 import {
+  defaultSearachParams,
   handleChangePage,
   handleChangeRowsPerPage,
   searchVaccinationPoints
@@ -76,17 +77,17 @@ export default function VaccinationPointTable() {
 
   const onChangePage = (event: unknown, newPage: number) => {
     dispatch(handleChangePage(newPage));
-    dispatch(searchVaccinationPoints({ city: '', district: '', ward: '' }));
+    dispatch(searchVaccinationPoints(defaultSearachParams));
   };
 
   const onChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(handleChangeRowsPerPage(+event.target.value));
     dispatch(handleChangePage(0));
-    dispatch(searchVaccinationPoints({ city: '', district: '', ward: '' }));
+    dispatch(searchVaccinationPoints(defaultSearachParams));
   };
 
   React.useEffect(() => {
-    dispatch(searchVaccinationPoints({ city: '', district: '', ward: '' }));
+    dispatch(searchVaccinationPoints(defaultSearachParams));
   }, []);
 
   // duyệt qua từng hàng và thêm order number
