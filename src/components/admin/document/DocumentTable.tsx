@@ -13,6 +13,7 @@ import {
   Typography
 } from '@mui/material';
 import React, { FC, useState } from 'react';
+import EditModal from './EditModal';
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
@@ -163,7 +164,11 @@ export default function DocumentTable({ readonly }: DocumentTableProps) {
       {(!data || data.length === 0) && (
         <Typography textAlign="center">Không có dữ liệu</Typography>
       )}
-      {/* edit modal */}
+      <EditModal
+        editModalOpen={editModalOpen}
+        handleCloseEditModal={handleCloseEditModal}
+        document={selectDocument}
+      />
     </Stack>
   );
 }
