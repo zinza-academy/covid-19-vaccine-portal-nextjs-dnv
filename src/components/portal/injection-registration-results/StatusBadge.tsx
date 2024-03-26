@@ -18,7 +18,7 @@ const getBadgeColor = (status: VaccineRegistrationStatus) => {
   }
 };
 
-const getBadgeLabel = (status: VaccineRegistrationStatus) => {
+export const getBadgeLabel = (status: VaccineRegistrationStatus) => {
   switch (status) {
     case VaccineRegistrationStatus.Requested:
       return 'Đăng ký thành công';

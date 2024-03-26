@@ -1,6 +1,7 @@
 'use client';
 import {
   QueryParamsType,
+  defaultSearachParams,
   handleChangePage,
   searchVaccinationPoints,
   updateQueryParams
@@ -10,43 +11,43 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, MenuItem, Select, Stack } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-const cities = ['Hà Nội', 'Hưng Yên', 'Lào Cai'];
-const districts = ['Cầu Giấy', 'Quận Ba Đình'];
-const wards = ['Mai Dịch', 'Dịch Vọng Hậu'];
+type AdminSearchParamsType = Pick<QueryParamsType, 'address' | 'name'>;
 
-export default function VaccinationPointToolbar() {
+const names = ['Bệnh viện Đa khoa Medlatec', 'Bệnh viện Đa khoa Hà Nội'];
+const addresses = ['42-44 Nghĩa Dũng'];
+
+export default function SearchSection() {
   const {
     register,
     handleSubmit,
-    formState: { isValid, isSubmitting }
-  } = useForm<QueryParamsType>({
+    formState: { isSubmitting }
+  } = useForm<AdminSearchParamsType>({
     defaultValues: {
-      city: '',
-      district: '',
-      ward: ''
+      address: '',
+      name: ''
     }
   });
-  const dispatch = useAppDispatch();
-  const onSubmit: SubmitHandler<QueryParamsType> = (data) => {
-    dispatch(updateQueryParams(data));
-    dispatch(handleChangePage(0));
-    dispatch(searchVaccinationPoints(data));
-  };
 
+  const dispatch = useAppDispatch();
+  const onSubmit: SubmitHandler<AdminSearchParamsType> = (data) => {
+    dispatch(updateQueryParams({ ...defaultSearachParams, ...data }));
+    dispatch(handleChangePage(0));
+    dispatch(searchVaccinationPoints(defaultSearachParams));
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack direction="row" spacing={2}>
         <div className="block input-group mb-4">
           <Select
             displayEmpty
-            id="province_id"
             variant="outlined"
             defaultValue=""
+            placeholder="a"
             sx={{ minWidth: '260px' }}
-            {...register('city')}
+            {...register('name')}
             inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem value="">Tỉnh/Thành phố</MenuItem>
-            {cities.map((item) => (
+            <MenuItem value="">Điểm tiêm</MenuItem>
+            {names.map((item) => (
               <MenuItem key={'p' + item} value={item}>
                 {item}
               </MenuItem>
@@ -56,40 +57,22 @@ export default function VaccinationPointToolbar() {
         <div className="block input-group mb-4">
           <Select
             displayEmpty
-            id="district_id"
             variant="outlined"
             defaultValue=""
             sx={{ minWidth: '260px' }}
-            {...register('district')}
+            {...register('address')}
             inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem value="">Quận/Huyện</MenuItem>
-            {districts.map((item) => (
+            <MenuItem value="">Địa chỉ</MenuItem>
+            {addresses.map((item) => (
               <MenuItem key={'d' + item} value={item}>
                 {item}
               </MenuItem>
             ))}
           </Select>
         </div>
-        <div className="block input-group mb-4">
-          <Select
-            size="medium"
-            displayEmpty
-            id="ward_id"
-            variant="outlined"
-            defaultValue=""
-            sx={{ minWidth: '260px' }}
-            {...register('ward')}
-            inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem value="">Xã/Phường</MenuItem>
-            {wards.map((item) => (
-              <MenuItem key={'w' + item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
+
         <Button
-          disabled={isSubmitting || !isValid}
+          disabled={isSubmitting}
           type="submit"
           startIcon={<SearchIcon />}
           variant="contained"
