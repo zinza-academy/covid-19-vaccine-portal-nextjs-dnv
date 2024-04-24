@@ -15,7 +15,7 @@ import FieldLabel from './FieldLabel';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import { RegisterData, Role, useRegisterUser } from '@/api/auth';
+import { RegisterData, Role, useRegisterUser } from '@/api/auth/signUp';
 import { useDistricts, useProvinces, useWards } from '@/api/location';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
