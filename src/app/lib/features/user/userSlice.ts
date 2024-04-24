@@ -8,7 +8,7 @@ export type UserInfoType = {
   fullName: string;
   dateOfBirth: string;
   gender: string;
-  city: string;
+  province: string;
   district: string;
   ward: string;
 };
@@ -27,7 +27,7 @@ const initialState: UserState = {
   userInfo: {
     email: '',
     citizenID: '',
-    city: '',
+    province: '',
     dateOfBirth: '',
     gender: '',
     district: '',
