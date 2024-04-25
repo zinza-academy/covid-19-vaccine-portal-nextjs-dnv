@@ -1,8 +1,11 @@
+import TanStackQueryProvider from '@/utils/TanstackProvider';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import './globals.css';
+import { Toaster } from 'react-hot-toast';
 import StoreProvider from './StoreProvider';
+import './globals.css';
 
 const roboto = Roboto({
   weight: '400',
@@ -23,7 +26,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.className}>
         <StoreProvider>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          <TanStackQueryProvider>
+            <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+            <ReactQueryDevtools
+              initialIsOpen={false}
+              buttonPosition="bottom-left"
+              position="left"
+            />
+            <Toaster />
+          </TanStackQueryProvider>
         </StoreProvider>
       </body>
     </html>

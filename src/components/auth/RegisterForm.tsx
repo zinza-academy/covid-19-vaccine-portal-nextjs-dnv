@@ -15,17 +15,18 @@ import FieldLabel from './FieldLabel';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
+import { RegisterData, Role, useRegisterUser } from '@/api/auth/signUp';
+import { useDistricts, useProvinces, useWards } from '@/api/location';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { useAppDispatch } from '@/app/lib/hooks';
-import {
-  UserInfoType,
-  registerSubmit
-} from '@/app/lib/features/user/userSlice';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { handleAxiosError } from '@/api/handleAxiosError';
 
 const schema = yup.object().shape({
-  citizenID: yup
+  citizenId: yup
     .string()
     .matches(/^\d{9}$|^\d{12}$/, 'Citizen ID phải có độ dài 9 hoặc 12 số.')
     .required('Số CMND/CCCD không được để trống.'),
@@ -40,46 +41,66 @@ const schema = yup.object().shape({
   fullName: yup.string().required('Họ tên không được để trống.'),
 
   dateOfBirth: yup.mixed<Dayjs>().required('Ngày sinh không được để trống.'),
-  gender: yup.string().required('Giới tính không được để trống.'),
-  city: yup.string().required('Thành phố không được để trống.'),
+  gender: yup
+    .string()
+    .required('Giới tính không được để trống.')
+    .oneOf(['nam', 'nữ'], 'Giới tính không hợp lệ'),
+  province: yup.string().required('Thành phố không được để trống.'),
   district: yup.string().required('Quân/Huyệnkhông được để trống.'),
   ward: yup.string().required('Xã/Phường không được để trống.')
 });
 
 export type RegisterFormFields = yup.InferType<typeof schema>;
 
-const cities = ['Hà Nội', 'Hưng Yên', 'Lào Cai'];
-const districts = ['Cầu Giấy', 'Nam Từ Liêm'];
-const wards = ['Mai Dịch', 'Dịch Vọng Hậu'];
-
 export default function RegisterForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
     control
   } = useForm<RegisterFormFields>({
     resolver: yupResolver(schema),
     defaultValues: {
-      citizenID: '',
+      citizenId: '',
       email: '',
       password: '',
       fullName: '',
       dateOfBirth: dayjs(),
-      city: '',
+      province: '',
       district: '',
       gender: '',
       ward: ''
     }
   });
+  const { provinces } = useProvinces();
+  const provinceId = watch('province');
+  const { districts } = useDistricts(+provinceId);
+  const districtId = watch('district');
+  const { wards } = useWards(+districtId);
+  const registerMutation = useRegisterUser();
+  const router = useRouter();
 
-  const dispatch = useAppDispatch();
-  const onSubmit: SubmitHandler<RegisterFormFields> = (data) => {
-    const userInfo: UserInfoType = {
-      ...data,
-      dateOfBirth: data.dateOfBirth.toISOString()
+  const onSubmit: SubmitHandler<RegisterFormFields> = async (data) => {
+    const { fullName, email, password, gender, citizenId } = data;
+
+    const userInfo: RegisterData = {
+      fullName: fullName,
+      email,
+      password,
+      gender: gender === 'nam' ? 'M' : 'F',
+      dateOfBirth: data.dateOfBirth.toISOString(),
+      role: Role.User,
+      ward: +data.ward,
+      citizenId
     };
-    dispatch(registerSubmit(userInfo));
+    try {
+      await registerMutation.mutateAsync(userInfo);
+      toast.success('Đăng ký thành công');
+      router.push('/auth/login');
+    } catch (error) {
+      handleAxiosError(error);
+    }
   };
 
   return (
@@ -90,13 +111,13 @@ export default function RegisterForm() {
       <FormControl>
         <FieldLabel htmlFor="citizenID" text="Số CMND/CCCD" required />
         <TextField
-          {...register('citizenID')}
+          {...register('citizenId')}
           id="citizenID"
           label=""
           placeholder="Số CMND/CCCD"
           variant="outlined"
-          error={!!errors.citizenID?.message}
-          helperText={errors.citizenID?.message}
+          error={!!errors.citizenId?.message}
+          helperText={errors.citizenId?.message}
         />
       </FormControl>
       {/* Email */}
@@ -181,36 +202,34 @@ export default function RegisterForm() {
       </FormControl>
       {/* Tỉnh/Thành phố */}
       <FormControl>
-        <FieldLabel htmlFor="city" text="Tỉnh/Thành phố" required />
+        <FieldLabel htmlFor="province" text="Tỉnh/Thành phố" required />
         <Controller
           control={control}
-          name="city"
+          name="province"
           render={({ field: { onChange, onBlur, value, ref } }) => (
             <FormControl>
-              <InputLabel id="city">Tỉnh/Thành phố</InputLabel>
+              <InputLabel id="province">Tỉnh/Thành phố</InputLabel>
               <Select
-                labelId="city"
-                id="city"
+                labelId="province"
+                id="province"
                 value={value || ''}
-                label="Tỉnh/Thành phố"
                 onChange={onChange}
-                error={!!errors.city?.message}
+                error={!!errors.province?.message}
                 onBlur={onBlur}>
-                {cities.map((city) => (
-                  <MenuItem key={city} value={city}>
-                    {city}
+                {provinces?.map((province) => (
+                  <MenuItem key={province.id} value={province.id}>
+                    {province.name}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
           )}
         />
-        <FormHelperText error>{errors.city?.message}</FormHelperText>
+        <FormHelperText error>{errors.province?.message}</FormHelperText>
       </FormControl>
       {/* quận/huyện */}
       <FormControl>
         <FieldLabel htmlFor="district" text="Quận/Huyện" required />
-
         <Controller
           control={control}
           name="district"
@@ -225,9 +244,9 @@ export default function RegisterForm() {
                 onChange={onChange}
                 error={!!errors.district?.message}
                 onBlur={onBlur}>
-                {districts.map((district) => (
-                  <MenuItem key={district} value={district}>
-                    {district}
+                {districts?.map((district) => (
+                  <MenuItem key={district.id} value={district.id}>
+                    {district.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -253,9 +272,9 @@ export default function RegisterForm() {
                 onChange={onChange}
                 error={!!errors.ward?.message}
                 onBlur={onBlur}>
-                {wards.map((ward) => (
-                  <MenuItem key={ward} value={ward}>
-                    {ward}
+                {wards?.map((ward) => (
+                  <MenuItem key={ward.id} value={ward.id}>
+                    {ward.name}
                   </MenuItem>
                 ))}
               </Select>
