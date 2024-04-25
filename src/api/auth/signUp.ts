@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import customFetch from '@/api/axios-customize';
+import axiosInstance from '@/api/axios-customize';
 
 export enum Role {
   Admin = 1,
@@ -18,7 +18,7 @@ export type RegisterData = {
 };
 
 const registerUser = async (registerData: RegisterData) => {
-  const response = await customFetch.post('/auth/sign-up', registerData);
+  const response = await axiosInstance.post('/auth/sign-up', registerData);
   return response.data;
 };
 
