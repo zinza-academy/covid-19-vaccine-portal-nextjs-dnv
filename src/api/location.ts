@@ -6,9 +6,15 @@ export type BaseLocationType = {
   id: number;
 };
 
+enum QueryKeys {
+  Provinces = 'province',
+  Districts = 'districts',
+  Wards = 'wards'
+}
+
 const useProvinces = () => {
   const { data: provinces } = useQuery<BaseLocationType[]>({
-    queryKey: ['province'],
+    queryKey: [QueryKeys.Provinces],
     queryFn: async () => {
       const response = await axiosInstance.get('/provinces');
       return response.data;
@@ -20,7 +26,7 @@ const useProvinces = () => {
 
 const useDistricts = (provinceId: number) => {
   const { data: districts } = useQuery<BaseLocationType[]>({
-    queryKey: ['districts', provinceId],
+    queryKey: [QueryKeys.Districts, provinceId],
     queryFn: async () => {
       const response = await axiosInstance.get(
         `/districts/by-province/${provinceId}`
@@ -36,7 +42,7 @@ const useDistricts = (provinceId: number) => {
 
 const useWards = (districtId: number) => {
   const { data: wards } = useQuery<BaseLocationType[]>({
-    queryKey: ['wards', districtId],
+    queryKey: [QueryKeys.Wards, districtId],
     queryFn: async () => {
       const response = await axiosInstance.get(
         `/wards/by-district/${districtId}`
